@@ -1,0 +1,22 @@
+<div class="user-block">
+  <a class="group-image" href=<%= user_path(user) %>>
+    <figure>
+      <%= image_tag user.image.url, class: "exchange_image" %>
+    </figure>
+  </a>
+  <div class="user-block-group-name">
+    <dl>
+      <dt class="user-block-item-name"><%= user&.nickname %></dt>
+      <dt class="user-block-item-name age"><%= user.age %></dt>
+      <dt class="user-block-item-name"><%= User.get_province(user.residence) if user.residence.present? %></dt>
+    </dl>
+  </div>
+  <div class="user-block-empty"></div>
+  <div class="user-block-group-name">
+    <i class="fas fa-heart"></i><span style="margin-left: 5px"><%= user.favorites_count %></span>
+    <br>
+    <br>
+    <br>
+    <%= link_to '削除', "javascript:void(0)", class: 'disband-user-btn', data: {user_id: user.id} %>
+  </div>
+</div>

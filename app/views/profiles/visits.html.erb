@@ -1,0 +1,19 @@
+<header class="page-title">
+  <%= link_to :back, class: 'btn-back' do %>
+    <i class="fas fa-chevron-circle-left"></i>
+  <% end %>
+  <h1>一週間で<%= @users.total_count %>人のお相手が訪れました。</h1>
+</header>
+
+<div class="chat">
+  <div class="chat-wrapper chat-wrapper-index">
+    <div class="chat-list-wrapper">
+      <ul class="chat-list" id="visits" data-page="1" data-total="<%= @users.total_pages %>">
+        <%= render partial: 'profiles/user', collection: @users, as: :user %>
+      </ul>
+      <div id="loading" class="hidden loading">
+        <%= image_tag 'icons/loading.svg' %>
+      </div>
+    </div>
+  </div>
+</div>

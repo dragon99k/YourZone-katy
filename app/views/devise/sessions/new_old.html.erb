@@ -1,0 +1,47 @@
+<header>
+  <h1><%= image_tag 'logo.png', alt: 'eventmatching ワラシベ' %></h1>
+</header>
+<%= link_to user_facebook_omniauth_authorize_path, class: "login-facebook" do %>
+    <i class="fab fa-facebook"></i>
+    Facebookではじめる
+<% end %>
+<%= link_to user_twitter_omniauth_authorize_path, class: "login-twitter" do %>
+  <i class="fab fa-twitter"></i>Twitterではじめる
+<% end %>
+
+<% if notice %>
+  <p class="alert alert-success"><%= notice %></p>
+<% end %>
+<% if alert %>
+  <p class="alert alert-danger"><%= alert %></p>
+<% end %>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <p class="center">メールアドレスでログインするお客様はこちら</p>
+  <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: 'メールタイトル', class: 'login-type' %>
+  <%= f.password_field :password, autocomplete: "current-password", placeholder: 'パスワード', class: 'login-type' %>
+  <div class="actions">
+    <%= f.submit "ログイン", class: 'btn-login' %>
+  </div>
+<% end %>
+
+<p class="right">
+  <%= link_to "パスワードが忘れたお客様はこちら", new_user_password_path %>
+</p>
+<p class="right">
+  <%= link_to "新規登録の客様はこちら", '/users/sign_up' %>
+</p>
+<% if flash.notice == I18n.t('devise.registrations.signed_up_but_unconfirmed') %>
+  <div id="modal-confirm-email">
+    <div class="modal-content">
+      <div class="container">
+        <p class='title'>お知らせ</p>
+        <p>登録完了しました。</p><br/>
+        <p>メールの受信ボックスを確認してください。</p>
+        <div class="button-area">
+          <button type="button">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

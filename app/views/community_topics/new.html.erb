@@ -1,0 +1,63 @@
+<div id="top" class="community-detail">
+  <header class="page-title">
+    <h1>新規登録</h1>
+  </header>
+
+  <%= form_for @community_topic, url: community_community_topics_path(community_id: @community&.id), html: { class: 'registration-form', method: :post } do |f| %>
+    <div class="center error-messages">
+      <%= render "layouts/errors_messages", resource: @community_topic %>
+    </div>
+
+    <div class="field community-images">
+      <div class="text-title">
+        <label>画像</label>
+      </div>
+      <%= f.fields_for :community_topic_images do |p| %>
+        <div class="image-field">
+          <%= file_field_tag "image", id: "image_field_#{p.index}", class: 'image_field', data: {index: p.index} %>
+          <%= p.hidden_field :image_topic, id: "image_field_hidden_#{p.index}", value: "" %>
+          <%= p.text_field :_destroy, id: "destroy_image_#{p.index}", class: 'destroy_image', value: !p.object.image.exists? %>
+          <span id="remove_<%= p.index %>"
+                class="remove <%= 'hidden' unless p.object.image.exists? %>"
+                data-index="<%= p.index %>">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+          </span>
+          <div class="preview-image" data-index="<%= p.index %>">
+            <%= image_tag p.object.image.url, class: 'preview', id: "preview_#{p.index}" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <div class="text-title">
+        <label>タイトル</label>
+        <label class="required">（※必須）</label>
+      </div>
+      <%= f.text_field :title, value: f.object.title, class: 'login-type' %>
+    </div>
+
+<!--    <div class="field">-->
+<!--      <label>カテゴリ</label>-->
+      <%#= f.select :category, options_for_select(category_list, f.object.category || 0), {}, class: 'login-type' %>
+<!--    </div>-->
+
+    <div class="field">
+      <div class="text-title">
+        <label>概要</label>
+        <label class="required">（※必須）</label>
+      </div>
+      <%= f.text_area :description, value: f.object.description, class: 'text-area' %>
+    </div>
+
+    <%= f.hidden_field :community_id, value: @community&.id %>
+    <%= f.hidden_field :user_id, value: current_user&.id %>
+
+    <div class="actions">
+      <%= f.submit "登録する", class: 'btn-create btn-disabled', id: "create-new-community-topic", disabled: true %>
+    </div>
+  <% end %>
+</div>
+
+<%= render 'layouts/modal_crop_image' %>
+<%= render 'layouts/modal_check_word_violate' %>

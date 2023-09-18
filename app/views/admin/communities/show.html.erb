@@ -1,0 +1,99 @@
+<% title = 'コミュニティ詳細' %>
+
+<div class="content-header">
+  <h1>
+    <%= title %>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><%= title %></li>
+  </ol>
+</div>
+
+<div class="field community-images">
+  <% unless @community.community_images.blank? %>
+    <section class="profile-gallery">
+      <div class="gallery">
+        <% @community.community_images.each do |community_image| %>
+          <figure>
+            <%= image_tag community_image.image.url %>
+          </figure>
+        <% end %>
+      </div>
+      <div class="slider-nav"></div>
+    </section>
+  <% end %>
+</div>
+
+<div class="content body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="box-infomation">
+          <table>
+            <tr>
+              <th class="name">
+                タイトル
+              </th>
+              <td class="content">
+                <%= @community.name %>
+              </td>
+            </tr>
+            <tr>
+              <th class="name">
+                カテゴリ
+              </th>
+              <td class="content">
+                <%= Community::CATEGORY[@community.category] %>
+              </td>
+            </tr>
+            <tr>
+              <th class="name">
+                概要
+              </th>
+              <td class="content">
+                <%= @community.description %>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <span style="font-weight: 600;">参加しているユーザ一覧</span>
+        <br>
+        <br>
+        <div class="box box-primary">
+          <div class="box-body">
+            <table class="table table-hover text-nowrap table-bordered">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>User Name</th>
+                <th>Email</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @list_user_joins.each do |list_user| %>
+                <tr>
+                  <td><%= list_user.id %></td>
+                  <td><%= list_user.nickname %></td>
+                  <td><%= list_user.email %></td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+
+            <div id="paginator" class="pull-right">
+              <%= paginate @list_user_joins %>
+            </div>
+          </div><!-- /.box-body -->
+        </div>
+        <div class="text-center">
+          <%= link_to "編集", edit_admin_community_path(@community.id), class: "btn-edit-custom" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

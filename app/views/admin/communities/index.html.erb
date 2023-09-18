@@ -1,0 +1,64 @@
+<% title = 'イベント一覧管理' %>
+
+<div class="content-header">
+  <h1>
+    <%= title %>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><%= title %></li>
+  </ol>
+</div>
+
+<div class="content body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="center">
+          <%= render "layouts/flash", resource: flash = "" %>
+        </div>
+        <div class="box box-primary">
+          <div class="box-body">
+            <table class="table table-hover text-nowrap table-bordered">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>タイトル</th>
+                <th>作成者</th>
+                <th>参加者数</th>
+                <th>カテゴリ</th>
+                <th class="text-center"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @communities.each do |community| %>
+                <tr>
+                  <td><%= community.id %></td>
+                  <td><%= community.name %></td>
+                  <td>
+                    <%= community.user.nickname %>
+                  </td>
+                  <td><%= community&.favorites.size %></td>
+                  <td><%= Community::CATEGORY[community.category] %></td>
+                  <td class="text-center">
+                    <%= button_to '削除',
+                                  admin_community_path(community),
+                                  method: :delete,
+                                  data: { confirm: '削除して宜しいですか。'},
+                                  class: "btn btn-danger",
+                                  type: 'button' %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+
+            <div id="paginator" class="pull-right">
+              <%= paginate @communities %>
+            </div>
+          </div><!-- /.box-body -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

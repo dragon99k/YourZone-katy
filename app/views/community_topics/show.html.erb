@@ -1,0 +1,90 @@
+<header class="page-title">
+  <%= link_to community_path(@community_topic&.community), class: 'btn-back' do %>
+    <i class="fas fa-angle-left"></i>
+  <% end %>
+  <h1><%= @community_topic.title %></h1>
+  <% if @community_topic&.user_id == current_user.id %>
+    <%= link_to edit_community_community_topic_path(id: @community_topic&.id, community_id: @community_topic&.community&.id), class: 'btn-edit-comunity' do %>
+      <i class="fa fa-pencil" aria-hidden="true"></i>
+    <% end %>
+  <% end %>
+</header>
+
+<div class="field product-images">
+  <% unless @community_topic.image.blank? %>
+    <section class="profile-gallery">
+      <div class="gallery">
+        <figure>
+          <%= image_tag @community_topic.image.url %>
+        </figure>
+      </div>
+      <div class="slider-nav"></div>
+    </section>
+  <% end %>
+
+  <section class="profile-meta">
+    <ul>
+      <li class="img-profile">
+        <%= image_tag (@community_topic&.user&.image&.url || "no-image.jpg") %>
+      </li>
+      <li class="text-meta">
+        <h1><%= @community_topic&.user&.name %></h1>
+        <p> <%= User.get_province(@community_topic&.user&.residence) %></p>
+      </li>
+      <li class="text-meta btn-go-to-profile">
+        <%= link_to 'プロフィールを見る', user_path(id: @community_topic.user_id), class: 'block-btn' %>
+      </li>
+    </ul>
+  </section>
+</div>
+
+<div class="description">
+  <%= @community_topic&.description&.gsub(/[\r\n]+/, '<br/>')&.html_safe %>
+</div>
+
+<section class="messages-community">
+  <div id="form-messages-community">
+    <ul class="community-message-list" data-behavior='community_messages' data-community-room-id=<%= @community_room.id %>>
+      <% @messages.each_with_index do |message, i| %>
+        <% is_after = i > 0 && @messages[i - 1].user_id === message.user_id %>
+        <%= render partial: 'community_messages/message',
+                   locals: { message: message, is_after: is_after, community_room: @community_room } %>
+      <% end %>
+    </ul>
+  </div>
+  <% if @user_join_community.include?(current_user) || current_user == @community_topic&.community.user %>
+    <div class="compose-box">
+      <%= form_for CommunityMessage.new, url: community_room_community_messages_path(community_room_id: @community_room&.id), remote: true,
+        html: { class: 'form-chat-topic', method: :post, id: 'new-community-message' } do |f| %>
+
+        <div class="form-chat-input">
+          <%= f.text_area :body, rows: 10, autofocus: true, class: "message_body" %>
+        </div>
+        <%= hidden_field_tag "community_topic_id", @community_topic.id %>
+        <div class="group-button">
+          <div class="btn-image">
+            <div class="image-field">
+              <%= f.file_field :image, id: "image_field_1", class: 'image_field', data: {index: 1} %>
+              <span id="remove_1"
+                    class="remove <%= 'hidden' unless f.object.image.exists? %>"
+                    data-index="1">
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+              </span>
+              <div class="preview-image" data-index="1">
+                <% img_url =(f.object.image.url == "/images/original/missing.png" || f.object.image.nil?) ? "/images/original/camera.png" : f.object.image.url %>
+                <%= image_tag img_url, class: 'preview', id: "preview_img_1" %>
+              </div>
+            </div>
+          </div>
+          <%= f.submit "メッセージを送る", class: "btn-submit-msg-topic" %>
+        </div>
+
+      <% end %>
+    </div>
+  <% else %>
+    <div class="btn-create">
+      <%= link_to "参加する", "javascript:void(0)", id: "btn-join-group", class: "btn-create-community-topic" %>
+    </div>
+    <%= render "communities/modal_join_community", community: @community_topic&.community %>
+  <% end %>
+</section>

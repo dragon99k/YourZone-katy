@@ -1,0 +1,10 @@
+<% if flash.present? %>
+  <div class="flash-success">
+      <% flash.each do |key, message| %>
+          <% if key == "success" %>
+            <p>お知らせ</p>
+          <% end %>
+          <p><%= message %></p>
+      <% end %>
+  </div>
+<% end %>

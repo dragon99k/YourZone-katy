@@ -1,0 +1,26 @@
+<div class="user-block">
+  <a class="group-image" href=<%= user_path(favorite.user) %>>
+    <figure>
+      <%= image_tag favorite.user.image.url, class: "exchange_image" %>
+    </figure>
+  </a>
+  <div class="user-block-group-name">
+    <dl>
+      <dt class="user-block-item-name"><%= favorite.user&.nickname %></dt>
+      <dt class="user-block-item-name"><%= User.get_province(favorite.user.residence) if favorite.user.residence.present? %></dt>
+      <dt class="user-block-item-name"><%= favorite&.community&.name %></dt>
+    </dl>
+  </div>
+  <div class="user-block-empty"></div>
+  <div class="user-block-group-name">
+    <dl>
+      <dt style="margin-top: 10px">
+        <%= link_to '承認', approve_community_community_path(id: favorite.community&.id, user_id: favorite.user.id), method: :put,
+          class: 'btn-approve-community', data: {user_id: favorite.user.id} %>
+      </dt>
+      <dt style="margin-top: 20px">
+        <%= link_to '拒否', un_favorite_community_path(favorite.community, user_id: favorite.user.id), method: :put, class: 'btn-reject-community' %>
+      </dt>
+    </dl>
+  </div>
+</div>

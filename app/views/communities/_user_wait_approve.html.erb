@@ -1,0 +1,25 @@
+<div class="user-block">
+  <a class="group-image" href=<%= user_path(user) %>>
+    <figure>
+      <%= image_tag user.image.url, class: "exchange_image" %>
+    </figure>
+  </a>
+  <div class="user-block-group-name">
+    <dl>
+      <dt class="user-block-item-name"><%= user&.nickname %></dt>
+      <dt class="user-block-item-name"><%= User.get_province(user.residence) if user.residence.present? %></dt>
+    </dl>
+  </div>
+  <div class="user-block-empty"></div>
+  <div class="user-block-group-name">
+    <dl>
+      <dt style="margin-top: 10px">
+        <%= link_to '承認', approve_community_community_path(id: @community&.id, user_id: user.id), method: :put,
+          class: 'btn-approve-community', data: {user_id: user.id} %>
+      </dt>
+      <dt style="margin-top: 20px">
+        <%= link_to '拒否', "javascript:void(0)", class: 'btn-reject-community', data: {user_id: user.id} %>
+      </dt>
+    </dl>
+  </div>
+</div>

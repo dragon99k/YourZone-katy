@@ -1,0 +1,8 @@
+<% if @like %>
+  $('.action-like a').addClass('liked');
+  $('.action-like span').text('いいね済み');
+  $('.modal-alert-like').css('display', 'block');
+<% else %>
+  $('.action-like a').removeClass('liked');
+  $('.action-like span').text('いいね');
+<% end %>

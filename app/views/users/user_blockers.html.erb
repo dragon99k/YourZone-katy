@@ -1,0 +1,29 @@
+<header class="page-title">
+  <h1>ブロックユーザー一覧</h1>
+</header>
+
+<% if @users.present? %>
+  <div id="search_users" class="search-items" data-page="1" data-total="<%= @users.total_pages %>">
+    <%= render :partial => 'users/list_user_block', collection: @users, as: :user %>
+
+    <div id="loading" class="hidden">
+      loading....
+    </div>
+  </div>
+<% else %>
+  <div style="margin-top: 40vh; text-align: center;">データがありません。</div>
+<% end %>
+
+<div class="modal-custom modal-alert-block-list">
+  <span class="close close-modal" title="Close Modal">×</span>
+  <form class="modal-content">
+    <div class="container">
+      <p>ブロック解除してよろしいですか？</p><br/>
+
+      <div class="clearfix">
+        <button type="button" class="cancelbtn close-modal">Cancel</button>
+        <%= link_to "OK", "javascript:void(0)",class: "confirm-block-btn", id: "block_user", data: {userid: ""} %>
+      </div>
+    </div>
+  </form>
+</div>

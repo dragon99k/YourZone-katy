@@ -1,0 +1,44 @@
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- Sidebar user panel -->
+    <div class="user-panel">
+      <div class="pull-left image">
+        <%= image_tag "user2-160x160.jpg", class:"img-circle", alt:"User Image" %>
+      </div>
+      <div class="pull-left info">
+        <h4>管理者画面</h4>
+      </div>
+    </div>
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu" data-widget="tree">
+      <li class="<%= active_class('users') %>">
+        <a href="<%= admin_users_path %>">
+          <i class="fa fa-users"></i>
+          <span>ユーザ一覧管理</span>
+        </a>
+      </li>
+      <li class="<%= active_class('communities') %>">
+        <a href="<%= admin_communities_path %>">
+          <i class="fas fa-book"></i>
+          <span>イベント一覧管理</span>
+        </a>
+      </li>
+      <li class="<%= active_class('messages') %>">
+        <a href="<%= admin_messages_path %>">
+          <i class="fas fa-comments"></i>
+          <span>メッセージ一覧管理</span>
+        </a>
+      </li>
+      <li>
+        <%= link_to destroy_admin_session_path, method: :delete do %>
+          <i class="fas fa-key"></i>
+          <span>ログアウト</span>
+        <% end %>
+      </li>
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>
+
+<div class="control-sidebar-bg"></div>

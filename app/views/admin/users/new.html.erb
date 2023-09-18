@@ -1,0 +1,62 @@
+<div class="content-header">
+  <h1>
+    新規登録
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">新規登録</li>
+  </ol>
+</div>
+
+<div id="top" class="product-detail">
+  <%= form_for @user, as: resource_name, url: admin_users_path(@user), html: { class: 'registration-form' } do |f| %>
+    <div class="center error-messages">
+      <%= render "devise/shared/error_messages", resource: @user %>
+    </div>
+
+    <div class="field">
+      <label>ニックネーム<span class="require">(*)</span></label>
+      <%= f.text_field :nickname, autofocus: true, autocomplete: "nickname", require: true, placeholder: "ニックネーム", class: 'login-type' %>
+    </div>
+
+    <div class="field">
+      <label>メールアドレス<span class="require">(*)</span></label>
+      <div class="field-child">
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", require: true, placeholder: "メールアドレス", class: 'login-type' %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>パスワード<span class="require">(*)</span></label>
+      <%= f.password_field :password, autocomplete: "new-password", require: true, placeholder: "パスワード", class: 'login-type' %>
+    </div>
+
+    <div class="field">
+      <label>パスワード（確認用)<span class="require">(*)</span></label>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", require: true, placeholder: "パスワード（確認用）", class: 'login-type' %>
+    </div>
+
+    <div class="field">
+      <label>性別</label>
+      <%= f.select :sex, options_for_enum(@user, :sex), {include_blank: '未設定'}, class: 'login-type' %>
+    </div>
+
+    <div class="field">
+      <label>生年月日</label>
+      <div class="field-child date">
+        <%= select_tag :year, options_for_select(years, params[:year]), class: "login-type year" %>
+        <%= select_tag :month, options_for_select(months, params[:month]), class: "login-type month" %>
+        <%= select_tag :day, options_for_select(days, params[:day]), class: "login-type day" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>居住地</label>
+      <%= f.select :residence, options_for_select(provinces, f.object.residence), {}, class: 'login-type' %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "新規登録", class: 'btn-login' %>
+    </div>
+  <% end %>
+</div>

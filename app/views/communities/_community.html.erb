@@ -1,0 +1,10 @@
+<li>
+  <a href="<%= community_path(community) %>"><%= image_tag community.image.url %>
+    <p class="title"><%= community.name %></p>
+    <dl>
+      <dt><%= Community.get_category(community.category) if community.category.present? %></dt>
+      <dd><span id="favorites_count_<%= community.id %>"><%= community.approved_favorites.size %></span>人</dd>
+    </dl>
+  </a>
+  <%= link_to join_community_btn_text(community), favorite_community_path(community), method: :post, remote: true, class: "favorite active #{join_community_class(community)}", id: "favorite_#{community.id}", data: { community_name: community.name } %>
+</li>

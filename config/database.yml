@@ -1,0 +1,25 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: root
+  password: <%= ENV['APPNAME_DATABASE_PASSWORD'] %>
+
+development:
+  <<: *default
+  database: warashibe_development
+test:
+  <<: *default
+  database: warashibe_test
+
+production:
+  <<: *default
+  database: warashibe_production
+  username: warashibe
+  password: <%= ENV['WARASHIBE_DATABASE_PASSWORD'] %>
+
+staging:
+  <<: *default
+  database: warashibe_staging
+  username: deploy
+  password: 'P@ssw0rd'

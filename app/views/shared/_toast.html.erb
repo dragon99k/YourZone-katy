@@ -1,0 +1,5 @@
+<% if flash[:success] || flash[:error] %>
+  <div id="toast" class="<%= flash[:success].present? ? 'success' : 'error' %>">
+    <%= flash[:success] || flash[:error] %>
+  </div>
+<% end %>

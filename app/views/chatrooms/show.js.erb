@@ -1,0 +1,15 @@
+var messagesEml = $("[data-behavior='messages'][data-chatroom-id='<%= @chatroom.id %>']")
+messagesEml.prepend(
+  "<%= raw (
+    @messages.each_with_index.map do |message, i|
+      is_after = i > 0 && @messages[i - 1].user_id === message.user_id
+      escape_javascript(render partial: 'messages/message',
+               locals: { message: message, is_after: is_after, chatroom: @chatroom })
+    end.join("")
+    )
+  %>"
+);
+
+<% if @messages.size < 20 %>
+  $('#message-list').data('disable-loadmore', true);
+<% end %>

@@ -1,0 +1,15 @@
+<header class="page-title">
+  <h1>参加申請一覧</h1>
+</header>
+
+<% if @favorites.present? %>
+  <div id="search_users" class="search-items" data-page="1" data-total="<%= @favorites.total_pages %>">
+    <%= render :partial => 'users/user_wait_approve_community', collection: @favorites, as: :favorite %>
+
+    <div id="loading" class="hidden">
+      loading....
+    </div>
+  </div>
+<% else %>
+  <div style="padding-top: 40vh; text-align: center; background: #fff;">データがありません。</div>
+<% end %>

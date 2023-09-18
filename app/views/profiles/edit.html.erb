@@ -1,0 +1,164 @@
+<div id="top" class="edit-profile">
+  <header class="page-title">
+    <h1>プロファイル編集</h1>
+  </header>
+
+  <%= form_for @user, url: profile_path(@user), html: { class: 'registration-form', method: :put } do |f| %>
+    <div class="center error-messages">
+      <%= render "devise/shared/error_messages", resource: @user %>
+    </div>
+
+    <h2>基本情報</h2>
+
+    <div class="field user-images">
+      <label>ヘッダー画像</label>
+
+      <%= f.fields_for :user_images do |p| %>
+        <div class="image-field">
+          <%= file_field_tag "image", id: "image_field_#{p.index}", class: 'image_field', data: {index: p.index} %>
+          <%= p.hidden_field :image_topic, id: "image_field_hidden_#{p.index}", value: "" %>
+          <%= p.text_field :_destroy, id: "destroy_image_#{p.index}", class: 'destroy_image', value: !p.object.image.exists? %>
+          <span id="remove_<%= p.index %>"
+                class="remove <%= 'hidden' unless p.object.image.exists? %>"
+                data-index="<%= p.index %>">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+          </span>
+          <div class="preview-image" data-index="<%= p.index %>">
+            <%= image_tag p.object.image.url, class: 'preview', id: "preview_#{p.index}" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="field user-images">
+      <label>画像<span class="require">(*)</span></label>
+      <div class="image-field">
+        <%= file_field_tag "image", id: "image_field_10", class: 'image_field', data: {index: 10} %>
+        <%= f.hidden_field :image, id: "image_field_hidden_10", value: "" %>
+        <%= f.text_field :_destroy, id: "destroy_image_10", class: 'destroy_image', value: !f.object.image.exists? %>
+        <span id="remove_10"
+              class="remove <%= 'hidden' unless f.object.image.exists? %>"
+              data-index="10">
+          <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </span>
+        <div class="preview-image" data-index="10">
+          <%= image_tag f.object.image.url, class: 'preview', id: "preview_10" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>ニックネーム<span class="require">(*)</span></label>
+      <%= f.text_field :nickname, autofocus: true, autocomplete: "nickname", require: true, placeholder: "ニックネーム", class: 'login-type' %>
+    </div>
+
+<!--    <div class="field">-->
+<!--      <label>名前</label>-->
+      <%#= f.text_field :name, autofocus: true, autocomplete: "nickname", placeholder: "名前", class: 'login-type' %>
+<!--    </div>-->
+
+    <div class="field">
+      <label>メールアドレス<span class="require">(*)</span></label>
+      <div class="field-child">
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", require: true, placeholder: "メールアドレス", class: 'login-type' %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>性別</label>
+      <%= f.select :sex, options_for_enum(@user, :sex), {include_blank: ''}, class: 'login-type' %>
+    </div>
+
+    <div class="field">
+      <label>生年月日</label>
+      <div class="field-child date">
+        <%= select_tag :year, options_for_select(years, params[:year] || @user&.birthday&.year), class: "login-type year" %>
+        <%= select_tag :month, options_for_select(months, params[:month] || @user&.birthday&.month), class: "login-type month" %>
+        <%= select_tag :day, options_for_select(days, params[:day] || @user&.birthday&.day), class: "login-type day" %>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>メッセージ</label>
+      <%= f.text_area :self_introduction, rows: '10', class: 'login-type text-area' %>
+    </div>
+
+    <div class="field">
+      <label>血液型</label>
+      <%= f.select :blood_type, options_for_enum(@user, :blood_type), {include_blank: ''}, class: 'login-type' %>
+    </div>
+
+<!--    <div class="field">-->
+<!--      <label>兄弟姉妹</label>-->
+      <%#= f.text_field :siblings, class: 'login-type' %>
+<!--    </div>-->
+
+<!--    <div class="field">-->
+<!--      <label>国籍</label>-->
+      <%#= f.text_field :nationality, class: 'login-type' %>
+<!--    </div>-->
+
+<!--    <div class="field">-->
+<!--      <label>出身地</label>-->
+      <%#= f.select :birth_place, options_for_select(provinces, f.object&.birth_place), {}, class: 'login-type' %>
+<!--    </div>-->
+
+    <div class="field">
+      <label>居住地</label>
+      <%= f.select :residence, options_for_select(provinces, f.object&.residence), {}, class: 'login-type' %>
+    </div>
+
+<!--    <br/><br/>-->
+<!--    <h2>学歴・業種・外見</h2>-->
+
+<!--    <div class="field">-->
+<!--      <label>学歴</label>-->
+      <%#= f.select :academic, options_for_enum(@user, :academic), {include_blank: ''}, class: 'login-type' %>
+<!--    </div>-->
+
+<!--    <div class="field">-->
+<!--      <label>業種</label>-->
+      <%#= f.select :industry, options_for_enum(@user, :industry), {include_blank: ''}, class: 'login-type' %>
+<!--    </div>-->
+
+<!--    <div class="field">-->
+<!--      <label>身長</label>-->
+      <%#= f.text_field :height, class: 'login-type' %>
+<!--    </div>-->
+
+<!--    <div class="field">-->
+<!--      <label>体型</label>-->
+      <%#= f.select :body_type, options_for_enum(@user, :body_type), {include_blank: ''}, class: 'login-type' %>
+<!--    </div>-->
+
+    <div class="field">
+      <label>Facebook ID</label>
+      <%= text_field_tag :facebook_id, @user&.facebook_url.present? ? @user&.facebook_url.gsub("https://www.facebook.com/", "") : "", class: 'login-type', placeholder: '例）eventmatching' %>
+      <span class="note-text facebook-url-note">
+        <%= @user&.facebook_url.present? ? @user&.facebook_url : "https://www.facebook.com/ユーザID" %>
+      </span>
+    </div>
+
+    <div class="field">
+      <label>Instagram ID</label>
+      <%= text_field_tag :instagram_id, @user&.instagram_url.present? ? @user&.instagram_url.gsub("https://www.instagram.com/", "") : "", class: 'login-type', placeholder: '例）eventmatching'  %>
+      <span class="note-text instagram-url-note">
+        <%= @user&.instagram_url.present? ? @user&.instagram_url : "https://www.instagram.com/ユーザID" %>
+      </span>
+    </div>
+
+    <div class="field">
+      <label>Youtube ID</label>
+      <%= text_field_tag :youtube_id, @user&.youtube_url.present? ? @user&.youtube_url.gsub("https://www.youtube.com/channel/", "") : "", class: 'login-type', placeholder: 'チャンネルIDを入力してください。'  %>
+      <span class="note-text youtube-url-note">
+        <%= @user&.youtube_url.present? ? @user&.youtube_url : "https://www.youtube.com/channel/チャンネルID" %>
+      </span>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "保存する", class: 'btn-login' %>
+    </div>
+  <% end %>
+</div>
+
+<%= render 'layouts/modal_crop_image' %>

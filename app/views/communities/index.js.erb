@@ -1,0 +1,3 @@
+$('#search_communities').append(
+    "<%= escape_javascript(render :partial => 'communities/community', collection: @communities, as: :community) %>"
+);

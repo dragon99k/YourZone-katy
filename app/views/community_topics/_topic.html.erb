@@ -1,0 +1,18 @@
+<% image_url = (community_topic.image.url.present? && community_topic.image.url == "/images/original/missing.png") ?
+   @community.image.url : community_topic.image.url %>
+<tr>
+  <th class="avatar">
+    <span class="avatar available">
+      <%= link_to community_community_topic_path(community_id: @community.id, id: community_topic.id) do %>
+        <%= image_tag image_url, class: 'img-circle' %>
+      <% end %>
+    </span>
+  </th>
+  <td class="title">
+    <%= link_to community_topic.title, community_community_topic_path(community_id: @community.id, id: community_topic.id) %>
+  </td>
+  <td class="date">
+    <div><%= t('views.communities.show.time_end_number_messages', date: format_short_day(community_topic.created_at)) %></div>
+      <%= community_topic&.community&.user&.nickname %>
+  </td>
+</tr>

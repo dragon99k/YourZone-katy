@@ -1,0 +1,8 @@
+<% if flash[:notice].present? %>
+  <div class="msgAlert">
+    <div class="text"></div>
+    <div class="close">
+      <span class="icon-x-mark"><%= flash[:notice] %></span>
+    </div>
+  </div>
+<% end %>

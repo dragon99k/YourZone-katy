@@ -1,0 +1,13 @@
+<li class="<%= message.user_id == current_user.id ? 'right' : 'left' %> <%= 'is_after' if is_after %> list-messages" data-mes-id="<%= message.id %>">
+  <span class="avatar">
+    <%= image_tag message&.user&.image.url, class: 'img-circle' %>
+  </span>
+  <div class="body">
+    <% if message&.body.present? %>
+      <div class="message-body well well-sm"><%= message.body %></div>
+    <% end %>
+    <% if message&.image.present? %>
+      <div class="preview-image-messages"><%= image_tag message&.image&.url, class: 'img-circle' %></div>
+    <% end %>
+  </div>
+</li>

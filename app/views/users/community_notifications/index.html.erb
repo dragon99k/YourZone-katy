@@ -1,0 +1,24 @@
+<header class="page-title">
+  <h1>通知一覧</h1>
+</header>
+
+<div>
+  <% if @notifications.present? %>
+    <div id="search_users" class="search_items notifications">
+      <% @notifications.each do |notification| %>
+        <% if notification.join_to_event? %>
+          <div class="notification-block">
+            <div class="title">イベント: &nbsp;<%= notification.community_name %></div>
+            <p><%= notification.content %></p>
+          </div>
+        <% else %>
+          <%= render 'users/user_wait_approve_community', favorite: notification.favorite %>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div style="margin-top: 40vh; text-align: center;">データがありません。</div>
+  <% end %>
+</div>
+
+<%= link_to '#', seen_community_notifications_path, method: :put, remote: true, id: 'seen-notification-btn', style: 'display: none' %>

@@ -1,0 +1,49 @@
+<%
+  user = message.user_id == chatroom.user1_id ? chatroom.user1 : chatroom.user2
+%>
+<% if message.message_type != "text" %>
+  <li
+    class="message-item <%= 'is_after' if is_after %>"
+    data-mes-id="<%= message.id %>"
+  >
+    <div class="body">
+      <% if message&.body.present? %>
+        <% if message.message_type == "image_item" %>
+          <div class="preview-image-messages" data-chatroom-id="<%= chatroom.id %>">
+            <%= message.body.html_safe %>
+          </div>
+        <% else message.message_type == "text_item" %>
+          <div class="message well-sm" data-chatroom-id="<%= chatroom.id %>">
+            <%= message.body.html_safe %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </li>
+<% else %>
+  <li
+    class="<%= user == current_user ? 'right' : 'left' %> <%= 'is_after' if is_after %>"
+    data-mes-id="<%= message.id %>"
+  >
+    <small class="timestamp">
+      <i class="fa fa-clock-o"></i><%= time_ago_in_words message.created_at %>
+    </small>
+    <span class="avatar tooltips">
+      <%= link_to user_path(id: user.id) do %>
+        <%= image_tag user.image.url, class: 'img-circle' %>
+      <% end %>
+    </span>
+    <div class="body">
+      <% if message&.body.present? %>
+        <div class="message well well-sm delete-message" data-chatroom-id="<%= chatroom.id %>" data-message-id="<%= message.id %>">
+          <%= message.body.html_safe %>
+        </div>
+      <% end %>
+      <% if message&.image.present? %>
+        <div class="preview-image-messages delete-message" data-chatroom-id="<%= chatroom.id %>" data-message-id="<%= message.id %>">
+          <%= image_tag message&.image&.url %>
+        </div>
+      <% end %>
+    </div>
+  </li>
+<% end %>

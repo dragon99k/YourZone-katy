@@ -1,0 +1,94 @@
+<%= stylesheet_link_tag "style",  media: 'all', 'data-turbolinks-track': 'reload' %>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+<div class="wrapper">
+  <header>
+    <div class="row">
+      <%= image_tag 'logo1.png', alt: '', class: "logo" %>
+    </div>
+  </header>
+  <main class="main-wrapper">
+    <% if notice %>
+      <p class="alert alert-success"><%= notice %></p>
+    <% end %>
+    <% if alert && alert != "unauthenticated"  %>
+      <p class="alert alert-danger"><%= alert %></p>
+    <% end %>
+    <section class="form-wrapper">
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "login-form", autocomplete: false}) do |f| %>
+        <div class="field">
+          <div class="control">
+            <h4>メールアドレスでログイン</h4>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: 'メールタイトル', class: 'input email-input' %>
+            <div class="input-icon"><i class="fas fa-times-circle" id="email-login"></i></div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <%= f.password_field :password, autocomplete: "current-password", placeholder: 'パスワード', class: 'input password-input' %>
+            <div class="input-icon">
+              <i class="fas fa-question-circle"></i>
+              <i class="fas fa-times-circle" id="password-login" style="margin-left: 5px;"></i>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <%= link_to "ログイン", "javascript:void(0);", class: 'button is-solid primary-button raised is-rounded is-fullwidth', id: "login-btn" %>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <div class="register">
+              <a href="/users/sign_up"><span>新規登録</span></a>
+            </div>
+            <div style="text-align: center;">
+              <%= link_to 'パスワードが忘れたお客様はこちら', new_user_password_path, style: "color: #fff; font-size: 12px" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </section>
+    
+    <!-- remove old sections -->
+
+  </main>
+  <footer class="copyright">
+    Copyright
+  </footer>
+</div>
+
+<% if flash.notice == I18n.t('devise.registrations.signed_up_but_unconfirmed') %>
+  <div id="modal-confirm-email">
+    <div class="modal-content">
+      <div class="container">
+        <p class='title'>お知らせ</p>
+        <p>登録完了しました。</p><br/>
+        <p>メールの受信ボックスを確認してください。</p>
+        <div class="button-area">
+          <button type="button">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+
+<div class="modal-custom modal-check-login-user">
+  <span class="close close-modal" title="Close Modal">×</span>
+  <form class="modal-content">
+    <div class="container">
+      <p>アカウント再開してよろしいですか。</p><br/>
+
+      <div class="clearfix">
+        <button type="button" class="cancelbtn close-modal">キャンセル</button>
+        <button type="button" class="deletebtn" id="active-user-login" data-id="">OK</button>
+      </div>
+    </div>
+  </form>
+</div>
+

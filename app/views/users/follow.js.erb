@@ -1,0 +1,7 @@
+<% if @follow %>
+  $('.follow-btn').addClass('active');
+<% else %>
+  $('.follow-btn').removeClass('active');
+<% end %>
+
+$('#follows_count').text(<%= @follows_count.to_s %>)

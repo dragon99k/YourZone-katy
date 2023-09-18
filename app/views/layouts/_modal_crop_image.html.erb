@@ -1,0 +1,17 @@
+<%= stylesheet_link_tag 'crop_image' %>
+
+<div class="modal fade remove-modal" tabindex="-1" role="dialog" id="cropImagePop" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content text-center">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <img style="width: 300px; height: 300px; margin: auto;" class="js-avatar-preview" src="">
+      </div>
+      <div class="modal-footer">
+        <div class="crop-custom"><i class="fas fa-expand-alt"></i></div>
+        <button type="button" class="btn btn-default" id="cancle-crop" data-dismiss="modal" data-id="">キャンセル</button>
+        <button class="btn btn-primary" id="cropImageBtn" data-id="">トリミング</button>
+      </div>
+    </div>
+  </div>
+</div>

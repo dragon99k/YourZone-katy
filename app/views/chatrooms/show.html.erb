@@ -1,0 +1,74 @@
+<% style = (@exchange_item.present? ? "display: block;" : "") %>
+<% exchange_id = @exchange_item.present? ? "#{@exchange_item.id}" : "" %>
+<% product_id = @exchange_item.present? ? "#{@exchange_item.product_id}" : "" %>
+
+<header class="page-title" id="page-title-chatroom">
+  <%= link_to chatrooms_path, class: 'btn-back' do %>
+    <i class="fas fa-angle-left"></i>
+  <% end %>
+  <h1 id="nick-name" class="<%= "confirm" if @exchange_item.present? %>"><%= @to_user.nickname %></h1>
+  <%= hidden_field_tag "chatroom_id", @chatroom.id %>
+</header>
+
+<div id="alert_messages">
+  <%= render partial: 'layouts/alert_message', flash: flash %>
+</div>
+
+<div class="chat">
+  <div class="chat-wrapper chat-wrapper-detail">
+    <div id="message-list" class="message-list-wrapper">
+      <div id="loading" class="hidden loading">
+        <%= image_tag 'icons/loading.svg' %>
+      </div>
+      <ul class="message-list" data-behavior='messages' data-chatroom-id=<%= @chatroom.id %> data-user-id=<%= current_user.id %>>
+        <% @messages.each_with_index do |message, i| %>
+          <% is_after = i > 0 && @messages[i - 1].user_id === message.user_id %>
+          <%= render partial: 'messages/message',
+                     locals: { message: message, is_after: is_after, chatroom: @chatroom } %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="compose-box">
+    <%= form_for [@chatroom, Message.new], remote: true, html: { class: 'form-chat', multipart: true } do |f| %>
+      <div class="form-chat-input">
+        <%= f.text_area :body, rows: 10, autofocus: true, class: "message_body" %>
+      </div>
+      <div class="group-button">
+        <div class="btn-image">
+          <div class="image-field">
+            <%= f.file_field :image, id: "image_field_1", class: 'image_field', data: {index: 1} %>
+            <span id="remove_1"
+                  class="remove <%= 'hidden' unless f.object.image.exists? %>"
+                  data-index="1">
+                <i class="fa fa-times-circle" aria-hidden="true"></i>
+              </span>
+            <div class="preview-image" data-index="1">
+              <% img_url =(f.object.image.url == "/images/original/missing.png" || f.object.image.nil?) ? "/images/original/camera.png" : f.object.image.url %>
+              <%= image_tag img_url, class: 'preview', id: "preview_img_1" %>
+            </div>
+          </div>
+        </div>
+        <%= f.submit "メッセージを送る", class: "btn-submit-msg-topic" %>
+      </div>
+    <% end %>
+  </div>
+
+</div>
+
+<div class="modal-custom modal-delete-message">
+  <span class="btn-close-modal close-modal" title="Close Modal">×</span>
+  <div class="modal-content">
+    <div class="container">
+      <h2>メッセージを取り消しますか？</h2>
+      <br>
+      <div class="clearfix">
+        <button type="button" class="btn-cancel close-modal">キャンセル</button>
+        <%= link_to "削除", "#", method: :delete, class: "btn-confirm", id: "btn-delede-message" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'layouts/modal_check_word_violate' %>

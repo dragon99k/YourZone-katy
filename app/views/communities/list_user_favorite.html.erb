@@ -1,0 +1,30 @@
+<header class="page-title">
+  <h1>参加メンバー一覧</h1>
+</header>
+
+<% if @users.present? %>
+  <div id="search_users" class="search-items" data-page="1" data-total="<%= @users.total_pages %>">
+    <%= render :partial => 'communities/user_like_community', collection: @users, as: :user %>
+
+    <div id="loading" class="hidden">
+      loading....
+    </div>
+  </div>
+<% else %>
+  <div style="margin-top: 40vh; text-align: center;">データがありません。</div>
+<% end %>
+
+<div class="modal-custom modal-disband-user-group">
+  <span class="close close-modal" title="Close Modal">×</span>
+  <form class="modal-content">
+    <div class="container">
+      <p>削除してよろしいですか？</p><br/>
+
+      <div class="clearfix">
+        <input type="hidden" value="<%= @community.id %>" id="community_id">
+        <button type="button" class="cancelbtn close-modal">キャンセル</button>
+        <%= link_to "OK", "javascript:void(0)", class: "confirm-block-btn", id: "disband_user_group", data: {userid: ""} %>
+      </div>
+    </div>
+  </form>
+</div>

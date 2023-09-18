@@ -1,0 +1,52 @@
+<header class="page-title">
+  <h1>イベント一覧</h1>
+  <%= render 'shared/notification' %>
+  <a href="javascript:void(0);" class="nav-ellips open-nav">
+    <i class="fas fa-bars"></i>
+  </a>
+</header>
+
+<%= form_tag(communities_path, method: :get, class: 'search-input communities-search') do %>
+  <label>
+    <%= select_tag :category, options_for_select(category_list, params[:category]), include_blank: true, type: 'search', placeholder: 'キーワード', class: 'select-search' %>
+  </label>
+  <label>
+    <%= select_tag :location, options_for_select(Community.locations.keys, params[:location]), include_blank: true, type: 'search', placeholder: 'キーワード', class: 'select-search' %>
+  </label>
+  <label>
+    <%= select_tag :event_month, options_for_select(month_collations, params[:event_month]), include_blank: true, type: 'search', placeholder: 'キーワード', class: 'select-search' %>
+  </label>
+  <label>
+    <%= button_tag '検索' %>
+  </label>
+<% end %>
+
+<ul class="flexbox search-tab">
+</ul>
+
+<% if @communities %>
+  <section class="community-list">
+    <ul id="search_communities" class="community-item" data-page="1" data-total="<%= @communities.total_pages %>">
+      <%= render :partial => 'communities/community', collection: @communities, as: :community %>
+    </ul>
+    <div id="loading" class="hidden">
+      loading....
+    </div>
+  </section>
+<% else %>
+  <div style="margin-top: 40vh; text-align: center;">所属しているコミュニティ一がありません。</div>
+<% end %>
+
+<div class="btn-link-to">
+  <%= link_to new_community_path(), class: 'btn-link-to-create' do %>
+    <i class="fa fa-plus"></i>
+  <% end %>
+</div>
+
+<% if params[:q].present? && !@communities.present? %>
+  <section class="community-list">
+    <h3 class="center">見つかりません</h3>
+  </section>
+<% end %>
+
+<%= render 'modal_join_community' %>

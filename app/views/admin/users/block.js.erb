@@ -1,0 +1,11 @@
+var elmBlock = $('#block_user_' + <%= @user.id %>);
+
+<% if @user.deleted_at %>
+  elmBlock.val('ブロック解除');
+  elmBlock.addClass('btn-danger');
+  elmBlock.attr('data-confirm', 'ブロック解除してよろしいですか？');
+<% else %>
+  elmBlock.val('ブロック');
+  elmBlock.removeClass('btn-danger');
+  elmBlock.attr('data-confirm', 'ブロックしてよろしいですか？');
+<% end %>

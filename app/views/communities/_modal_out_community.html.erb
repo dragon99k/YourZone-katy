@@ -1,0 +1,16 @@
+<div class="modal-custom modal-out-group">
+  <span class="btn-close-modal close-modal" title="Close Modal">×</span>
+  <div class="modal-content">
+    <div class="container">
+      <h2>確認</h2>
+      <br>
+      <h2>退会してよろしいですか？</h2>
+      <br>
+      <input type="hidden" id="community-id" value="<%= community.id %>">
+      <div class="clearfix">
+        <button type="button" class="btn-cancel close-modal">キャンセル</button>
+        <%= link_to "OK", "javascript:void(0)",class: "btn-confirm", id: "out-group" %>
+      </div>
+    </div>
+  </div>
+</div>

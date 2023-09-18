@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>さがす</title>
+
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="★Description">
+  <meta name="keywords" content="★Keywords">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="theme-color" content="#FFF">
+  <link rel="canonical" href="../★URL">
+  <script src="https://kit.fontawesome.com/877342d900.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosansjapanese.css">
+  <%=  stylesheet_link_tag    'application', 'login_admin' %>
+</head>
+<body class="hold-transition login-page">
+  <%= yield %>
+</body>
+</html>

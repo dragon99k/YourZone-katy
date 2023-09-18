@@ -1,0 +1,64 @@
+<header class="page-title">
+  <%= link_to :back, class: 'btn-back' do %>
+    <i class="fas fa-angle-left"></i>
+  <% end %>
+  <h1>メッセージ</h1>
+  <div class='absolute-notification'>
+    <%= render 'shared/notification' %>
+  </div>
+  <a href="javascript:void(0);" class="nav-ellips open-nav" style="right: 10px;">
+    <i class="fas fa-bars"></i>
+  </a>
+</header>
+
+<%#= form_tag(chatrooms_path, method: :get, class: 'search-input') do %>
+<!--  <label><i class="fas fa-search"></i>-->
+    <%#= text_field_tag :q, params[:q], type: 'search', placeholder: 'キーワード' %>
+<!--  </label>-->
+<%# end %>
+
+<div class="chat">
+  <div class="chat-wrapper chat-wrapper-index">
+    <div class="chat-list-wrapper">
+      <ul class="chat-list">
+        <% if @chatrooms.present? %>
+          <% @chatrooms.uniq.each_with_index do |chatroom, index| %>
+            <% if chatroom&.messages.present? %>
+              <%
+                user1 = chatroom&.user1
+                user2 = chatroom&.user2
+                to_user = user1 == @user ? user2 : user1
+                message = chatroom&.last_message
+              %>
+              <li class="new <%= "border-top" if index != 0 %>">
+                <a href="<%= chatroom_path(chatroom) %>">
+                  <span class="avatar available">
+                    <%= image_tag to_user.image.url, class: 'img-circle' %>
+                  </span>
+                  <div class="body">
+                    <div class="header">
+                      <span class="username"><%= to_user.nickname %></span>
+<!--                      <small class="timestamp text-muted">-->
+<!--                        <i class="fa fa-clock-o"></i><%#= time_ago_in_words message.created_at if message %>-->
+<!--                      </small>-->
+                      <% if (message && (message&.status == "un_read") && (message.user_id != current_user.id)) %>
+                        <div class="dot-unmessage"></div>
+                      <% end %>
+                      <p>
+                        <% if message %>
+                          <%= format_messages(message.body, to_user) %>
+                        <% end %>
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            <% end %>
+          <% end %>
+        <% else %>
+          <div style="margin-top: 40vh; text-align: center;">データがありません。</div>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

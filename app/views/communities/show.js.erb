@@ -1,0 +1,7 @@
+$('.see-more-user').attr("href", "/communities/1?user_page=<%= @user_page + 1 %>")
+$('#community_users').prepend(
+    "<%= escape_javascript(render :partial => 'communities/user', collection: @user_join_community, as: :favorite) %>"
+);
+<% if @user_join_community.size < 8 %>
+  $('.see-more-user').css("display", "none")
+<% end %>

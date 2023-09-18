@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <% if @count.present? %>
+      <title><%= t("views.application.title", number: @count) %></title>
+    <% else %>
+      <title>
+        さがす
+      </title>
+    <% end %>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="★Description">
+    <meta name="keywords" content="★Keywords">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#FFF">
+    <link rel="canonical" href="../★URL">
+    <script src="https://kit.fontawesome.com/877342d900.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosansjapanese.css">
+    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-analytics.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap&libraries=&v=weekly"></script>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.css" integrity="sha512-w+u2vZqMNUVngx+0GVZYM21Qm093kAexjueWOv9e9nIeYJb1iEfiHC7Y+VvmP/tviQyA5IR32mwN/5hTEJx6Ng==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.9/cropper.min.js" integrity="sha512-9pGiHYK23sqK5Zm0oF45sNBAX/JqbZEP7bSDHyt+nT3GddF+VFIcYNqREt0GDpmFVZI3LZ17Zu9nMMc9iktkCw==" crossorigin="anonymous"></script>
+  </head>
+
+  <script>
+    <% if current_user %>
+      var config = {
+        apiKey: "AIzaSyAogkNwPUicGPQIqRB9uji0bsavRo8ZfmM",
+        authDomain: "warashibe-4a5e1.firebaseapp.com",
+        databaseURL: "https://warashibe-4a5e1.firebaseio.com",
+        projectId: "warashibe-4a5e1",
+        storageBucket: "warashibe-4a5e1.appspot.com",
+        messagingSenderId: "144556269485",
+        appId: "1:144556269485:web:b3d0912b13a5f11c0d0b24",
+        measurementId: "G-XZFQJL6SLG"
+      };
+      firebase.initializeApp(config);
+      const messaging = firebase.messaging();
+      messaging
+        .requestPermission()
+        .then(function () {
+          // get the token in the form of promise
+          return messaging.getToken()
+        })
+        .then(function(token) {
+          $.ajax({
+            type: 'POST',
+            url: '/push_notifications/save_token',
+            dataType: 'json',
+            data: {
+              token: token,
+              authenticity_token: $('[name="csrf-token"]')[0].content,
+              user_id: <%= current_user.id %>,
+            }
+          }).done(function(data) {
+            localStorage.setItem('NotificationToken', token);
+          }).fail(function() {
+          })
+
+        })
+        .catch(function (err) {
+          if(err.code == "messaging/token-unsubscribe-failed"){
+            location.reload();
+          }
+        });
+
+      messaging.onMessage(function(payload) {
+        const notification = payload.notification;
+        const options = {
+          body: notification.body,
+          icon: notification.icon,
+          tag: notification.tag,
+          click_action: notification.click_action
+        };
+        const title = notification.title;
+
+        var fcmNotification = new Notification(title, options);
+        fcmNotification.onclick = function(event) {
+          event.preventDefault();
+          window.open(notification.click_action, '_blank');
+        }
+      });
+    <% end %>
+  </script>
+
+  <body>
+  <main id="<%= controller_name %>" class="viewport">
+    <%= render 'shared/toast' %>
+    <%= yield %>
+  </main>
+  <nav id="global-navi">
+    <ul>
+      <li class="<%= 'active' if controller_name == 'communities' || controller_name == 'community_topics' %>">
+        <% if controller_name == 'communities' || controller_name == 'community_topics' %>
+          <a href="<%= communities_path %>"><%= image_tag "/images/icon/group_active.png" %>
+            <div class="alert-new-group <%= has_user_wait_to_approve_community(current_user.id) ? "display_alert" : "" %>">
+            </div>
+            <br>
+            <span>イベント一覧</span>
+          </a>
+        <% else %>
+          <a href="<%= communities_path %>"><%= image_tag "/images/icon/group.png" %>
+            <div class="alert-new-group <%= has_user_wait_to_approve_community(current_user.id) ? "display_alert" : "" %>">
+            </div>
+            <br>
+            <span>イベント一覧</span>
+          </a>
+        <% end %>
+      </li>
+      <li class="<%= 'active' if controller_name == 'chatrooms' %>">
+        <% if controller_name == 'chatrooms' %>
+          <a href="<%= chatrooms_path %>"><%= image_tag "/images/icon/message_active.png" %>
+            <div class="alert-new <%= @count.present? ? "display_alert" : "" %>">
+            </div>
+            <br>
+            <span>メッセージ</span>
+          </a>
+        <% else %>
+          <a href="<%= chatrooms_path %>"><%= image_tag "/images/icon/messages.png" %>
+            <div class="alert-new <%= @count.present? ? "display_alert" : "" %>">
+            </div>
+            <br>
+            <span>メッセージ</span>
+          </a>
+        <% end %>
+      </li>
+      <li class="<%= 'active' if current_page?(profile_path) || action_name == "show_products" || controller_name == "list_favorites" ||
+        action_name == "list_like_products" || action_name == "user_blockers" %>">
+        <% if current_page?(profile_path) || action_name == "show_products" || controller_name == "list_favorites" ||
+          action_name == "list_like_products" || action_name == "user_blockers" %>
+          <a href="<%= profile_path %>"><%= image_tag "/images/icon/user_active.png"%><br><span>プロフィール</span></a>
+        <% else %>
+          <a href="<%= profile_path %>"><%= image_tag "/images/icon/user.png"%><br><span>プロフィール</span></a>
+        <% end %>
+      </li>
+    </ul>
+  </nav>
+  <div id="mySidenav" class="sidenav">
+    <div class="header-title">
+      <div class="image-header"><%= image_tag current_user.image.url %></div>
+      <div class="name"><%= current_user.nickname %></div>
+      <%= link_to "&times;".html_safe, "javascript:void(0)", class: "closebtn-sidenav closebtn menu" %>
+    </div>
+    <%# link_to "利用規約", "https://www.google.com/", class: "menu", target: '_blank' %>
+    <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "remove-fcm-token menu" %>
+    <%#= link_to "アカウント一時停止", "javascript:void(0)", class: "remove-fcm-token menu cancle-membership" %>
+    <%# link_to "退会", "javascript:void(0)", class: "show-modal-confirm-cancel-membership menu" %>
+  </div>
+
+  <div class="modal-custom">
+    <span class="close close-modal" title="Close Modal">×</span>
+    <form class="modal-content" action="/action_page.php">
+      <div class="container">
+        <p>退会してよろしいですか。</p><br/>
+
+        <div class="clearfix">
+          <button type="button" class="cancelbtn close-modal">Cancel</button>
+          <%= link_to current_user, method: :delete do %>
+            <button type="button" class="deletebtn">OK</button>
+          <% end %>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-custom modal-confirm-cancel-membership">
+    <span class="close close-modal" title="Close Modal">×</span>
+    <form class="modal-content">
+      <div class="container">
+        <p>一時停止すると他のユーザーから閲覧されません。<br/>
+          再ログインしていただくと他のユーザーに閲覧されるようになり、サービスのご利用を再開できます。</p><br/>
+
+        <div class="clearfix">
+          <button type="button" class="cancelbtn close-modal">キャンセル</button>
+          <%= link_to cancel_membership_path(id: current_user.id), method: :put do %>
+            <button type="button" class="deletebtn">停止する</button>
+          <% end %>
+        </div>
+      </div>
+    </form>
+  </div>
+  </body>
+</html>
+<script>
+  $(document).ready(function() {
+    // $(".remove-fcm-token").click(function() {
+    //   <% if current_user %>
+    //   const token = window.localStorage.getItem('NotificationToken');
+    //   $.ajax({
+    //     type: 'POST',
+    //     url: '/push_notifications/destroy_token',
+    //     dataType: 'json',
+    //     data: {
+    //       user_id: <%= current_user.id%>,
+    //       authenticity_token: $('[name="csrf-token"]')[0].content,
+    //       token: token
+    //     }
+    //   }).done(function(data) {
+    //     window.localStorage.removeItem('NotificationToken');
+    //   }).fail(function() {
+    //   })
+    //   <% end %>
+    // });
+
+    $(".menu-like-list").click(function() {
+      if($(".list-like").css("display") === "none"){
+        $(".list-like").css("display", "block");
+      }else{
+        $(".list-like").css("display", "none");
+      }
+    });
+  });
+</script>

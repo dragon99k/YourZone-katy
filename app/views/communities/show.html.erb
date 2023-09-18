@@ -1,0 +1,69 @@
+<header class="page-title">
+  <%= link_to communities_path(), class: 'btn-back' do %>
+    <i class="fas fa-angle-left"></i>
+  <% end %>
+  <h1><%= @community.name %></h1>
+  <%= render 'shared/notification' %>
+  <a href="javascript:void(0);" class="btn-edit-comunity" id="open-menu-community">
+    <i class="fas fa-bars"></i>
+    </div>
+  </a>
+  <div id="myLinks">
+    <% if @community.community_user_id == current_user.id %>
+      <%= link_to "編集", edit_community_path(id: @community.id) %>
+    <% end %>
+  </div>
+</header>
+
+<div class="field product-images">
+  <% unless @community.community_images.blank? %>
+    <section class="profile-gallery">
+      <div class="gallery">
+        <% @community.community_images.each do |community_image| %>
+          <figure>
+            <%= link_to community_community_image_path(@community, community_image), target: :_blank do %>
+              <%= image_tag community_image.image.url %>
+            <% end %>
+          </figure>
+        <% end %>
+      </div>
+      <div class="slider-nav"></div>
+      <div class="favorite-count">
+        <i class="fas fa-heart"></i>
+        <%= "#{@all_count[:people]}人気" %>
+      </div>
+    </section>
+  <% end %>
+</div>
+
+<div class="show-community-btns">
+  <%= link_to join_community_btn_text(@community), favorite_community_path(@community), method: :post, remote: true, class: "favorite active #{join_community_class(@community)}", id: "favorite_#{@community.id}", data: { community_name: @community.name }  %>
+</div>
+
+<div class="description">
+  <%= @community&.description&.gsub(/[\r\n]+/, '<br/>')&.html_safe %>
+</div>
+<div class="text-see-more" id="see-more-text"><i class="fas fa-angle-down"></i></div>
+
+<%= render "communities/modal_join_community", community: @community %>
+<%= render "communities/modal_out_community", community: @community %>
+
+<div class="number-people">
+  報酬：<%= number_to_currency(@community.remuneration) %>
+</div>
+
+<div class="number-people"><%= t('views.communities.show.number_people', number: @all_count[:people]) %></div>
+
+<% if @user_join_community.present? %>
+  <div id="search">
+    <div id="community_users" class="search-items" data-page="1">
+      <%= render :partial => 'communities/user', collection: @user_join_community, as: :favorite %>
+
+      <% if @all_count[:people] > 8 %>
+        <%= link_to community_path(user_page: @user_page + 1), method: :get, class: "text-see-more see-more-user", :remote => true do %>
+          もっと読み込む
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

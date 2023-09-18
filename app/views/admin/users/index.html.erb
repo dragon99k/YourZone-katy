@@ -1,0 +1,79 @@
+<% title = 'ユーザ一覧管理' %>
+
+<div class="content-header">
+  <h1>
+    <%= title %>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><%= title %></li>
+  </ol>
+</div>
+
+<div class="content body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="center">
+          <%= render "layouts/flash", resource: flash = "" %>
+        </div>
+        <div class="box box-primary">
+
+          <%# disable feature %>
+          <% if false %>
+          <div class="box-header with-border group-create">
+            <div class="btn-link-to">
+              <%= link_to "javascript:void(0);", class: 'btn-link-to-create', id: "delete-user" do %>
+                一括削除
+              <% end %>
+            </div>
+            <div class="btn-link-to">
+              <%= link_to new_admin_user_path, class: 'btn-link-to-create' do %>
+                ユーザ登録
+              <% end %>
+            </div>
+          </div><!-- /.box-header -->
+          <% end %>
+
+          <div class="box-body">
+            <table class="table table-hover text-nowrap table-bordered">
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>ニックネーム</th>
+                <th>お誕生日</th>
+                <th>電話番号</th>
+                <th>居住地</th>
+                <th class="text-center">ブロック</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @users.each do |user| %>
+                <tr>
+                  <td><%= user.id %></td>
+                  <td><%= user.nickname %></td>
+                  <td><%= user.birthday %></td>
+                  <td><%= user.phone_number %></td>
+                  <td><%= User.get_province(user.residence) if user.residence %></td>
+                  <td class="text-center">
+                    <%= button_to '削除',
+                                  admin_user_path(user),
+                                  method: :delete,
+                                  data: { confirm: '削除して宜しいですか。' },
+                                  class: "btn btn-danger",
+                                  type: 'button' %>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+
+            <div id="paginator" class="pull-right">
+              <%= paginate @users %>
+            </div>
+          </div><!-- /.box-body -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

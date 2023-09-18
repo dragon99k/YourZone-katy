@@ -1,0 +1,192 @@
+<header class="page-title">
+  <%= link_to :back, class: 'btn-back' do %>
+    <i class="fas fa-angle-left"></i>
+  <% end %>
+  <h1><%= @user.nickname %></h1>
+  <div class='absolute-notification'>
+    <%= render 'shared/notification' %>
+  </div>
+  <% if current_user == @user %>
+    <a href="javascript:void(0);" class="nav-ellips open-nav">
+      <i class="fas fa-bars"></i>
+    </a>
+  <% else %>
+    <a href="javascript:void(0);" class="nav-ellips open-nav" id="open-menu-user">
+      <i class="fas fa-bars"></i>
+    </a>
+  <% end %>
+</header>
+
+<% unless @user.user_images.blank? %>
+  <section class="profile-gallery">
+    <div class="gallery">
+      <% @user.user_images.each do |user_image| %>
+        <figure>
+          <%= image_tag user_image.image.url %>
+        </figure>
+      <% end %>
+    </div>
+    <div class="slider-nav"></div>
+  </section>
+<% else %>
+  <section class="profile-gallery">
+    <div class="gallery">
+      <figure>
+        <%= image_tag "/images/original/warashibe_top.png" %>
+      </figure>
+    </div>
+    <div class="slider-nav"></div>
+  </section>
+<% end %>
+<section class="profile-meta">
+  <ul>
+    <li class="img-profile">
+      <%= image_tag @user.image.url, class: "avatar-user" %>
+      <% if @user.identification == "identification" %>
+        <div class="identify-user"></div>
+      <% end %>
+    </li>
+    <li class="text-meta">
+      <h1><%= @user.nickname %></h1>
+      <div class="profile-heart"><i class="fas fa-heart"></i><%= @user.likes.count %>人気</div>
+    </li>
+    <li class="text-meta">
+      <p style="text-align: left;padding-bottom: 5px;"><%= User.get_province(@user.residence) %></p>
+      <div class="profile-like">
+        <span id="follows_count"><%= @user.follows.count %></span>人フォロー中
+      </div>
+    </li>
+    <li class="text-meta">
+      <% if current_user != @user %>
+        <%#= link_to 'ブロック', "javascript:void(0)", class: 'block-btn', id: "block-user" %>
+        <%= button_to 'フォロー',
+                      follow_user_path(@user),
+                      remote: true,
+                      method: :post,
+                      class: "follow-btn #{ 'active' if @follow }",
+                      type: 'button' %>
+      <% end %>
+    </li>
+  </ul>
+</section>
+<% if @data[:communities].present? %>
+  <section class="profile-community">
+    <h2>イベント一覧</h2>
+    <%= link_to '全部を見る', communities_path(user_id: @user.id), class: 'view-all' %>
+    <ul>
+      <% @data[:communities].each do |community| %>
+        <li>
+          <a href="<%= community_path(community) %>">
+            <%= image_tag community.image.url %>
+            <p><%= community.name %></p>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+<% end %>
+<section class="profile-info">
+  <h2>メッセージ</h2>
+  <p><%= @user.self_introduction %></p>
+</section>
+<section class="profile-info">
+  <h2>基本情報</h2>
+  <table>
+    <tr>
+      <th>ニックネーム</th>
+      <td><%= @user.nickname %></td>
+    </tr>
+    <tr>
+      <th>年齢</th>
+      <td><%= @user.age %>歳</td>
+    </tr>
+    <tr>
+      <th>血液型</th>
+      <td><%= User.human_enum_name(:blood_type, @user.blood_type) if @user.blood_type %></td>
+    </tr>
+    <tr>
+      <th>居住地</th>
+      <td><%= User.get_province(@user.residence) %></td>
+    </tr>
+  </table>
+</section>
+
+<section class="link-social">
+  <% if @user&.facebook_url.present? %>
+    <%= link_to @user&.facebook_url, target: "_blank" do %>
+      <span class="fa fa-facebook" aria-hidden="true"></span>
+    <% end %>
+  <% end %>
+
+  <% if @user&.instagram_url.present? %>
+    <%= link_to @user&.instagram_url, target: "_blank" do %>
+      <span class="fa fa-instagram" aria-hidden="true"></span>
+    <% end %>
+  <% end %>
+
+  <% if @user&.youtube_url.present? %>
+    <%= link_to @user&.youtube_url, target: "_blank" do %>
+      <span class="fa fa-youtube-square" aria-hidden="true"></span>
+    <% end %>
+  <% end %>
+</section>
+
+<% if current_user != @user %>
+  <div class="profile-action">
+    <div class="action-item action-comment">
+      <%= link_to chatrooms_path(user_id: @user.id), method: :post do %>
+        <i class="fa fa-comment-o" aria-hidden="true"></i><br/>
+        <span>メッセージ</span>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <div class="center margin-bottom-50">
+    <a href="javascript:void(0);" class="btn-edit" id="btn-edit-profie">プロフィール編集</a>
+  </div>
+<% end %>
+
+<div class="modal-custom modal-alert-like">
+  <span class="close close-modal" title="Close Modal">×</span>
+  <div class="modal-content">
+    <div class="container">
+      <p>いいねと同時にメッセージを送りましょう</p><br/><br/>
+
+      <div class="clearfix">
+        <button type="button" class="cancelbtn close-modal">Cancel</button>
+        <%= button_to chatrooms_path(user_id: @user.id), method: :post, class: 'primarybtn' do %>
+          <span>メッセージを送る</span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if current_user != @user %>
+  <div class="modal-custom modal-alert-block">
+    <span class="btn-close-modal close-modal" title="Close Modal">×</span>
+    <div class="modal-content">
+      <div class="container">
+        <h2>ブロックしてよろしいですか？</h2>
+        <div class="clearfix">
+          <%= button_to block_user_path(user_id: @user.id), method: :post, class: 'primary-btn' do %>
+            <span>ブロック</span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= render 'layouts/modal_check_word_violate' %>
+<% end %>
+
+<div class="modal-custom modal-show-avatar-user" id="show-avatar-user">
+  <span class="btn-close-modal close-modal" title="Close Modal">×</span>
+  <div class="modal-content">
+    <div class="container">
+      <div class="avatar-user-content">
+        <%= image_tag @user&.image.url %>
+      </div>
+    </div>
+  </div>
+</div>
