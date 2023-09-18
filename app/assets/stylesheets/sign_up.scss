@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+$sign_up_primary_color: #32c4cc;
+
+.registration-form {
+  color: #656565;
+  margin: 0 15px;
+
+  label {
+    display: block;
+    text-align: left;
+    margin-top: 15px;
+  }
+
+  span.require {
+    color: #ff7d7d;
+  }
+
+  .login-type {
+    color: #656565 !important;
+
+    &::placeholder {
+      color: #8d8d8d !important;
+      opacity: .8;
+    }
+  }
+
+  .error-messages {
+    ul li {
+      color: #ff7d7d;
+    }
+  }
+
+  .date {
+    .login-type {
+      width: 30% !important;
+      display: inline-block;
+      float: left;
+      margin-right: 5% !important;
+
+      &:last-child {
+        margin-right: 0 !important;
+      }
+    }
+  }
+
+  .btn-login {
+    margin-top: 15px !important;
+  }
+}
