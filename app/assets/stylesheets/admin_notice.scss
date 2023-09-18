@@ -1,0 +1,39 @@
+#admin-notices {
+  height: 100%;
+  background-color: #FBEFF3;
+  .item {
+    padding: 5px 20px;
+    border: solid 1px #ffffff;
+    border-left: none;
+    border-right: none;
+    .timestamp {
+      float: right;
+      i {
+        margin-right: 5px;
+        font-size: 15px;
+      }
+    }
+  }
+}
+.admin-notices {
+  height: 100%;
+  background-color: #FBEFF3;
+  .box-infomation {
+    padding: 5px 15px 15px 15px;
+    .name {
+      margin-top: 10px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    .content {
+      margin-top: 20px;
+      text-indent: 25px;
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  #admin-notices {
+    margin-bottom: 30px;
+  }
+}

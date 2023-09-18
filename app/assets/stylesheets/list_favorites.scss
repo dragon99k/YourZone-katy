@@ -1,0 +1,327 @@
+// Place all the styles related to the communities controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@media screen and (max-width: 560px) {
+  #list_favorites {
+
+    margin-bottom: 50px;
+    .community-detail {
+      color: #2E2F30 !important;
+      background: none !important;
+
+      .login-type {
+        border: 1px solid #a0a0a0 !important;
+        padding: 8px 12px !important;
+        text-align: left !important;
+        color: #2E2F30 !important;
+        background-color: #ffffff !important;
+        overflow: hidden;
+      }
+
+      .text-area {
+        width: 100%;
+        min-height: 200px;
+        margin: 6px 0;
+        height: auto;
+        border-radius: 16px !important;
+      }
+
+      .text-title {
+        display: flex;
+        .required {
+          color: red;
+        }
+      }
+    }
+
+    .field {
+      label {
+        display: block;
+        text-align: left;
+        margin-top: 15px;
+      }
+    }
+
+    .community-images {
+      label {
+        display: block;
+        text-align: left;
+        margin-top: 15px;
+      }
+
+      .image_field {
+        display: none;
+      }
+
+      .destroy_image {
+        display: none;
+      }
+
+      .image-field {
+        width: 33.33%;
+        float: left;
+        padding: 10px;
+        position: relative;
+
+        .remove {
+          position: absolute;
+          right: 15px;
+          top: 3px;
+          font-size: 28px;
+        }
+      }
+    }
+
+    .profile-gallery .gallery:before {
+      content: "";
+      width: 86%;
+      height: 90%;
+      background: #252E69;
+      position: absolute;
+      left: 7%;
+      bottom: -2%;
+      filter: blur(.8em);
+      opacity: .2;
+    }
+
+    #result {
+      border: 2px dotted #cccccc;
+      display: none;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 16px;
+
+      .preview-image {
+        display: inline-block;
+        float: left;
+
+        .thumbnail {
+          height: 100px;
+          margin: 10px;
+          float: left;
+        }
+      }
+    }
+
+    .page-title {
+      display: flex;
+      h1 {
+        width: 100%;
+      }
+      .btn-edit-comunity {
+        right: 0px;
+        width: 15%;
+      }
+      .btn-back {
+        width: 15%;
+        position: unset;
+      }
+    }
+
+    .search-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .item {
+        width: 46%;
+        margin: 2%;
+        border-radius: 6px;
+        overflow: hidden;
+        max-width: 46%;
+        min-width: 46%;
+        a {
+          display: block;
+          position: relative;
+        }
+      }
+      .item-meta {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        max-width: 100%;
+        min-width: 100%;
+        min-height: 60px;
+        background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.75) 100%);
+        color: #FFF;
+        display: flex;
+        flex-direction: column-reverse;
+        padding: 8px;
+        dl {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+        }
+        .item-name {
+          flex: 1 0 100%;
+        }
+        .item-area {
+          flex: 1 0 50%;
+        }
+        .item-like {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 561px) {
+  #list_favorites {
+
+    margin-bottom: 50px;
+    .community-detail {
+      color: #2E2F30 !important;
+      background: none !important;
+
+      .login-type {
+        border: 1px solid #a0a0a0 !important;
+        padding: 8px 12px !important;
+        text-align: left !important;
+        color: #2E2F30 !important;
+        background-color: #ffffff !important;
+        overflow: hidden;
+      }
+
+      .text-area {
+        width: 100%;
+        min-height: 200px;
+        margin: 6px 0;
+        height: auto;
+        border-radius: 16px !important;
+      }
+
+      .text-title {
+        display: flex;
+        .required {
+          color: red;
+        }
+      }
+    }
+
+    .field {
+      label {
+        display: block;
+        text-align: left;
+        margin-top: 15px;
+      }
+    }
+
+    .community-images {
+      label {
+        display: block;
+        text-align: left;
+        margin-top: 15px;
+      }
+
+      .image_field {
+        display: none;
+      }
+
+      .destroy_image {
+        display: none;
+      }
+
+      .image-field {
+        width: 33.33%;
+        float: left;
+        padding: 10px;
+        position: relative;
+
+        .remove {
+          position: absolute;
+          right: 15px;
+          top: 3px;
+          font-size: 28px;
+        }
+      }
+    }
+
+    .profile-gallery .gallery:before {
+      content: "";
+      width: 86%;
+      height: 90%;
+      background: #252E69;
+      position: absolute;
+      left: 7%;
+      bottom: -2%;
+      filter: blur(.8em);
+      opacity: .2;
+    }
+
+    #result {
+      border: 2px dotted #cccccc;
+      display: none;
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 16px;
+
+      .preview-image {
+        display: inline-block;
+        float: left;
+
+        .thumbnail {
+          height: 100px;
+          margin: 10px;
+          float: left;
+        }
+      }
+    }
+
+    .page-title {
+      display: flex;
+      h1 {
+        width: 70%;
+      }
+      .btn-edit-comunity {
+        right: 0px;
+        width: 15%;
+      }
+      .btn-back {
+        width: 15%;
+        position: unset;
+      }
+    }
+
+    .search-items {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .item {
+        width: 46%;
+        margin: 2%;
+        border-radius: 6px;
+        overflow: hidden;
+        a {
+          display: block;
+          position: relative;
+        }
+      }
+      .item-meta {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        min-height: 60px;
+        background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.75) 100%);
+        color: #FFF;
+        display: flex;
+        flex-direction: column-reverse;
+        padding: 8px;
+        dl {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+        }
+        .item-name {
+          flex: 1 0 100%;
+        }
+        .item-area {
+          flex: 1 0 50%;
+        }
+        .item-like {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
