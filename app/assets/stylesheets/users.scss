@@ -1,0 +1,286 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#profiles {
+  margin-bottom: 50px;
+}
+
+.btn-edit {
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 100px;
+  margin: 6px 0;
+  background: #16165f;
+  border: none;
+  color: #fff !important;
+}
+
+.btn-approve-community {
+  background-color: #16165f;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 6px 35px;
+  color: #ffffff;
+
+  &:link {
+    -webkit-tap-highlight-color: unset;
+  }
+}
+
+.btn-reject-community {
+  background-color: #EE5859;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 6px 35px;
+  color: #ffffff;
+
+  &:link {
+    -webkit-tap-highlight-color: unset;
+  }
+}
+
+.edit-profile {
+  background: none !important;
+
+  .login-type {
+    border: 1px solid #a0a0a0 !important;
+    padding: 8px 12px !important;
+    text-align: left !important;
+    background-color: #ffffff !important;
+    overflow: hidden;
+  }
+
+  .text-area {
+    min-height: 200px;
+    margin: 6px 0;
+    height: auto;
+    border-radius: 16px !important;
+  }
+
+  .interest {
+    min-height: 100px;
+    margin: 6px 0;
+    height: auto;
+    border-radius: 16px !important;
+  }
+
+  .note-text {
+    font-size: 12px;
+    color: red;
+  }
+}
+
+.user-images {
+  .image_field {
+    display: none;
+  }
+
+  .destroy_image {
+    display: none;
+  }
+
+  .image-field {
+    width: 33.33%;
+    float: left;
+    padding: 10px;
+    position: relative;
+
+    .remove {
+      position: absolute;
+      right: 15px;
+      top: 3px;
+      font-size: 28px;
+    }
+  }
+}
+
+#result {
+  border: 2px dotted #cccccc;
+  display: none;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 16px;
+
+  .preview-image {
+    display: inline-block;
+    float: left;
+
+    .thumbnail {
+      height: 100px;
+      margin: 10px;
+      float: left;
+    }
+  }
+}
+
+.residence {
+  margin-top: 5px;
+  display: inline-block;
+}
+@media screen and (max-width: 560px) {
+  #search{
+    .page-title {
+      display: flex;
+      h1 {
+        width: 100%;
+      }
+      .btn-edit-comunity {
+        right: 0px;
+        width: 15%;
+      }
+      .btn-back {
+        width: 15%;
+        position: unset;
+      }
+    }
+  }
+  #search_users {
+    .user-block {
+      width: 100%;
+      display: flex;
+      font-size: 12px;
+      margin: 5px auto;
+
+      .group-image {
+        width: 25%;
+
+        figure {
+          width: 100%;
+
+          img {
+            width: 5rem;
+            height: 5rem;
+            object-fit: cover;
+          }
+        }
+      }
+
+      .user-block-group-name {
+        margin-left: 10px;
+        width: 30%;
+
+        .fa-heart {
+          font-size: 15px;
+        }
+
+        .user-block-item-name, .user-block-item-area {
+          margin: 3px 0;
+        }
+
+        .age {
+          &:after {
+            content: "歳";
+          }
+        }
+
+        .block-user-btn {
+          background-color: #16165f;
+          border-radius: 5px;
+          font-size: 12px;
+          padding: 6px 15px;
+          color: #ffffff;
+
+          &:link {
+            -webkit-tap-highlight-color: unset;
+          }
+        }
+
+        .disband-user-btn {
+          background-color: #16165f;
+          border-radius: 5px;
+          font-size: 12px;
+          padding: 6px 35px;
+
+          &:link {
+            -webkit-tap-highlight-color: unset;
+          }
+        }
+      }
+
+      .user-block-empty {
+        width: 10%;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 561px) {
+  #search_users {
+    .user-block {
+      width: 100%;
+      display: flex;
+      font-size: 14px;
+      margin: 5px auto;
+
+      .group-image {
+        width: 25%;
+
+        figure {
+          width: 100%;
+
+          img {
+            width: 10rem;
+            height: 10rem;
+            object-fit: cover;
+          }
+        }
+      }
+
+      .user-block-group-name {
+        margin-left: 10px;
+        width: 30%;
+
+        .fa-heart {
+          font-size: 15px;
+        }
+
+        .user-block-item-name, .user-block-item-area {
+          margin: 3px 0;
+        }
+
+        .age {
+          &:after {
+            content: "歳";
+          }
+        }
+
+        .block-user-btn {
+          background-color: #16165f;
+          border-radius: 5px;
+          font-size: 12px;
+          padding: 6px 15px;
+          color: #ffffff;
+
+          &:link {
+            -webkit-tap-highlight-color: unset;
+          }
+        }
+
+        .disband-user-btn {
+          background-color: #45a2dd;
+          border-radius: 5px;
+          font-size: 12px;
+          padding: 6px 35px;
+
+          &:link {
+            -webkit-tap-highlight-color: unset;
+          }
+        }
+      }
+
+      .user-block-empty {
+        width: 10%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  #search_users .user-block .user-block-group-name .block-user-btn {
+    font-size: 9px !important;
+  }
+}
