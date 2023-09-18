@@ -1,0 +1,149 @@
+// -- vars
+
+$height: 30 / 16 * 1em;
+$width: 72 / 16 * 1em;
+
+$color-white: #fefefe;
+$color-clouds: #ecf0f1;
+$color-silver: #bdc3c7;
+$color-peter-river: #3498db;
+$color-carrot: #e67e22;
+
+$transition-default: 0.25s ease-out 0.10s;
+
+// -- selectors
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+.group-btn-notification {
+  display: inline-flex;
+  width: 100%;
+  .text {
+    width: 70%;
+    padding-left: 10px;
+  }
+
+  .button-switch {
+    font-size: 1.5em;
+    height: $height;
+    margin-bottom: 10 / 16 * 1em;
+    position: relative;
+    width: $width;
+
+    .lbl-off,
+    .lbl-on {
+      cursor: pointer;
+      display: block;
+      font-size: 0.6em;
+      font-weight: bold;
+      line-height: 1em;
+      position: absolute;
+      top: 0.3rem;
+      transition: opacity $transition-default;
+      text-transform: uppercase;
+    }
+
+    .lbl-off {
+      right: 0.99rem;
+    }
+
+    .lbl-on {
+      color: $color-white;
+      opacity: 0;
+      left: 0.1rem;
+    }
+
+    .switch {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      // --
+      height: 0;
+      font-size: 1em;
+      left: 0;
+      line-height: 0;
+      outline: none;
+      position: absolute;
+      top: 0;
+      width: 0;
+
+      &:before,
+      &:after {
+        content: '';
+        font-size: 0.9em;
+        position: absolute;
+      }
+
+      &:before {
+        border-radius: 1.25em;
+        background: #bdc3c7;
+        height: 1.75rem;
+        left: -0.25em;
+        top: -0.2rem;
+        transition: background-color $transition-default;
+        width: 5em;
+      }
+
+      &:after {
+        box-shadow: 0 .0625em .375em 0 #666;
+        border-radius: 50%;
+        background: $color-white;
+        height: 16 / 16 * 1em;
+        transform: translate(0, 0);
+        transition: transform $transition-default;
+        width: 16 / 16 * 1em;
+      }
+
+      &:checked {
+        &:after {
+          transform: translate(4.2rem, 0);
+        }
+
+        & ~ .lbl-off {
+          opacity: 0;
+        }
+
+        & ~ .lbl-on {
+          opacity: 1;
+        }
+      }
+
+      &#switch-message {
+        &:checked:before {
+          background: #16165f;
+        }
+      }
+
+      &#switch-like {
+        &:checked:before {
+          background: #16165f;
+        }
+      }
+
+      &#switch-notification {
+        &:checked:before {
+          background: #16165f;
+        }
+      }
+    }
+  }
+}
+
+.group-btn {
+  width: 100%;
+  text-align: center;
+  .btn-submit {
+    width: 10rem;
+    padding: 10px 20px;
+    text-align: center;
+    background-color: #16165f;
+    color: white;
+    border-radius: 7px;
+    border: saddlebrown;
+    cursor: pointer;
+  }
+}
+
